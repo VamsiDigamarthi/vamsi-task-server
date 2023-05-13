@@ -21,6 +21,12 @@ const TaskSchema = mongoose.Schema(
       type: String,
       require: true,
     },
+    date: {
+      type: String,
+      require: true,
+    },
+    // created_At: { type: Date, default: new Date().toLocaleDateString() },
+    // updated_At: { type: Date, default: new Date().toLocaleDateString() },
   },
   { timestamps: true }
 );
