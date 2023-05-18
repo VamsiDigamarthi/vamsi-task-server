@@ -2,8 +2,9 @@ import bcrypt from "bcrypt";
 import UserModel from "../Models/UserModel.js";
 
 export const registerUser = async (req, res) => {
-  const { username, password, name, role, head } = req.body;
-
+  const { username, password, name, profilePic, role, head, designation } =
+    req.body;
+  //console.log(req.body);
   const userExit = await UserModel.findOne({ username: username });
 
   if (userExit) {
@@ -11,14 +12,8 @@ export const registerUser = async (req, res) => {
   } else {
     const salt = await bcrypt.genSalt(10);
     const hasspaword = await bcrypt.hash(password, salt);
-
-    const newUser = new UserModel({
-      username,
-      password: hasspaword,
-      name,
-      role,
-      head,
-    });
+    req.body.password = hasspaword;
+    const newUser = new UserModel(req.body);
 
     try {
       const user = await newUser.save();
@@ -68,3 +63,18 @@ export const loginUser = async (req, res) => {
 //     };
 //   }
 // };
+
+//
+// delete user
+
+export const deleteUser = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const tasks = await UserModel.findById(id);
+    const usersList = await UserModel.find({ head: id });
+    res.status(200).json(tasks);
+    //res.status(200).json(usersList);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};

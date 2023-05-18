@@ -18,6 +18,12 @@ const UserSchema = mongoose.Schema(
       type: String,
       default: false,
     },
+    designation: {
+      type: String,
+    },
+    profilePic: {
+      type: String,
+    },
     head: {
       type: String,
     },
